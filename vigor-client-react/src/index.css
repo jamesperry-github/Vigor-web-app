@@ -1,0 +1,22 @@
+body {
+  background: rgb(61, 154, 190);
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+
+}
+
+.container > .full-card {
+
+}
+
+.container > .full-card > .card {
+    width: 100%;
+    padding: 30px;
+}
