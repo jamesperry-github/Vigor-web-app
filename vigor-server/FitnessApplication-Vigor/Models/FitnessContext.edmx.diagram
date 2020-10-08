@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e02fec4b03734ff19d8f436bd4898a16" Name="Diagram1">
+      <Diagram DiagramId="9efd88018e924842b73e9ecb22240bd2" Name="Diagram1">
         <EntityTypeShape EntityType="FitnessModel.ActivityLevel" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
         <EntityTypeShape EntityType="FitnessModel.User" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="FitnessModel.fk_ActivityLevelId" ManuallyRouted="false" />

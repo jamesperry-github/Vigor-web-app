@@ -142,6 +142,27 @@
     <Compile Include="Controllers\PrincipalUserController.cs" />
     <Compile Include="DTO\ActivityLevelDTO.cs" />
     <Compile Include="DTO\PrincipalUserDTO.cs" />
+    <Compile Include="Models\ActivityLevel.cs">
+      <DependentUpon>FitnessContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FitnessContext.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FitnessContext.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FitnessContext.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FitnessContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FitnessContext.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FitnessContext.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\User.cs">
+      <DependentUpon>FitnessContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="UserSecurity.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -179,27 +200,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ActivityLevel.cs">
-      <DependentUpon>FitnessContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\FitnessContext.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FitnessContext.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\FitnessContext.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FitnessContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\FitnessContext.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FitnessContext.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\User.cs">
-      <DependentUpon>FitnessContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

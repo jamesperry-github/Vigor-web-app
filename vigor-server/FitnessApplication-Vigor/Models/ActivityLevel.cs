@@ -20,7 +20,7 @@ namespace FitnessApplication_Vigor.Models
             this.Users = new HashSet<User>();
         }
     
-        public int ActivityLevelId { get; set; }
+        public int ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public Nullable<System.DateTime> Created { get; set; }

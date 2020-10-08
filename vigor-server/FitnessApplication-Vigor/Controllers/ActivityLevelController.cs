@@ -26,7 +26,7 @@ namespace FitnessApplication_Vigor.Controllers
                         from al in db.ActivityLevels
                         select new ActivityLevelDTO
                         {
-                            ActivityLevelId = al.ActivityLevelId,
+                            ActivityLevelId = al.ID,
                             Name = al.Name,
                             Description = al.Description,
                         });

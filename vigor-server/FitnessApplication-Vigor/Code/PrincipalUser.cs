@@ -33,10 +33,10 @@ namespace FitnessApplication_Vigor.Code
                 foreach (var user in filteredUsers)
                 {
                     var ret = (from u in db.Users
-                               where user.UserId == u.UserId
+                               where user.ID == u.ID
                                select new
                                {
-                                   UserId = u.UserId,
+                                   UserId = u.ID,
                                    IsAuthenticated = id.Identity.IsAuthenticated,
                                    Username = u.UserName,
                                    Password = u.Password,

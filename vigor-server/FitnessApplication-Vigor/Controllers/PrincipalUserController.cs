@@ -53,7 +53,7 @@ namespace FitnessApplication_Vigor.Controllers
                 using (FitnessContext db = new FitnessContext())
                 {
                     var ret = (from u in db.Users
-                               join al in db.ActivityLevels on u.ActivityLevelId equals al.ActivityLevelId
+                               join al in db.ActivityLevels on u.ActivityLevelId equals al.ID
                                where u.UserId == pu.UserId
                                select new PrincipalUserDTO
                                {
