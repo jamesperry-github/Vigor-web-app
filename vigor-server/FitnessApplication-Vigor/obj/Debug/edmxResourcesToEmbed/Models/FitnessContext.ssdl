@@ -2,18 +2,18 @@
 <Schema Namespace="FitnessModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="ActivityLevel">
     <Key>
-      <PropertyRef Name="ActivityLevelId" />
+      <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ActivityLevelId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="varchar" MaxLength="256" Nullable="false" />
     <Property Name="Description" Type="text" Nullable="false" />
     <Property Name="Created" Type="datetime" />
   </EntityType>
   <EntityType Name="Users">
     <Key>
-      <PropertyRef Name="UserId" />
+      <PropertyRef Name="ID" />
     </Key>
-    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="UserName" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="Email" Type="varchar" MaxLength="256" Nullable="false" />
@@ -30,7 +30,7 @@
     <End Role="Users" Type="Self.Users" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="ActivityLevel">
-        <PropertyRef Name="ActivityLevelId" />
+        <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="Users">
         <PropertyRef Name="ActivityLevelId" />

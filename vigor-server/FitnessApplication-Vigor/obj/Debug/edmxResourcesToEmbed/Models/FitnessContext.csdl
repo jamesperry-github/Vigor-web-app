@@ -2,9 +2,9 @@
 <Schema Namespace="FitnessModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityType Name="ActivityLevel">
     <Key>
-      <PropertyRef Name="ActivityLevelId" />
+      <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ActivityLevelId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Created" Type="DateTime" Precision="3" />
@@ -12,9 +12,9 @@
   </EntityType>
   <EntityType Name="User">
     <Key>
-      <PropertyRef Name="UserId" />
+      <PropertyRef Name="ID" />
     </Key>
-    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
@@ -32,7 +32,7 @@
     <End Role="Users" Type="Self.User" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="ActivityLevel">
-        <PropertyRef Name="ActivityLevelId" />
+        <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="Users">
         <PropertyRef Name="ActivityLevelId" />

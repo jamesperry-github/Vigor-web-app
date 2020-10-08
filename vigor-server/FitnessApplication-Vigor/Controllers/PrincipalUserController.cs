@@ -54,10 +54,10 @@ namespace FitnessApplication_Vigor.Controllers
                 {
                     var ret = (from u in db.Users
                                join al in db.ActivityLevels on u.ActivityLevelId equals al.ID
-                               where u.UserId == pu.UserId
+                               where u.ID == pu.UserId
                                select new PrincipalUserDTO
                                {
-                                   UserId = u.UserId,
+                                   UserId = u.ID,
                                    Username = u.UserName,
                                    Password = u.Password,
                                    Email = u.Email,

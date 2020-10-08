@@ -4,7 +4,7 @@
     <EntitySetMapping Name="ActivityLevels">
       <EntityTypeMapping TypeName="FitnessModel.ActivityLevel">
         <MappingFragment StoreEntitySet="ActivityLevel">
-          <ScalarProperty Name="ActivityLevelId" ColumnName="ActivityLevelId" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Created" ColumnName="Created" />
@@ -14,7 +14,7 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="FitnessModel.User">
         <MappingFragment StoreEntitySet="Users">
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="UserName" ColumnName="UserName" />
           <ScalarProperty Name="Password" ColumnName="Password" />
           <ScalarProperty Name="Email" ColumnName="Email" />
