@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { logout, checkLogin } from '../../config/session';
 
@@ -40,20 +40,34 @@ export default class Nav extends Component {
           <Link
             className="nav-link"
             to="/login"
-            >Login</Link>
+          >Login</Link>
         </li>
       )
     }
   }
 
   signupBtn = () => {
-    return (
-      <li className="nav-item">
-        <Link
-          className="nav-link"
-          to="/sign-up"
+    if (!checkLogin()) {
+      return (
+        <li className="nav-item">
+          <Link
+            className="nav-link"
+            to="/sign-up"
           >Sign Up</Link>
-      </li>
+        </li>
+      )
+    }
+  }
+
+  pullRight = () => {
+    return (
+      <div className="nav-content">
+        <ul className="nav">
+          {this.navLink("/profile", "My Profile")}
+          {this.signupBtn()}
+          {this.authBtn()}
+        </ul>
+      </div>
     )
   }
 
@@ -72,11 +86,12 @@ export default class Nav extends Component {
           >Vigor</h3>
           <ul className="nav">
             {this.navLink("/", "Home")}
-            {/* {this.navLink("/sign-up", "Sign Up")} */}
-            {this.signupBtn()}
-            {this.authBtn()}
+            {this.navLink("/", "About")}
+            {this.navLink("/", "My Recipes")}
+            {this.navLink("/", "Contact Us")}
           </ul>
         </div>
+        {this.pullRight()}
       </nav>
     )
   };

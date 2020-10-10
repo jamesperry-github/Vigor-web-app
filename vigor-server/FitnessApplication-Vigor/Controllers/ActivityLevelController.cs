@@ -17,6 +17,33 @@ namespace FitnessApplication_Vigor.Controllers
         [EnableCors("*", "*", "*")]
         public HttpResponseMessage Get()
         {
+            // check logged user
+            PrincipalUser pu = new PrincipalUser();
+            try
+            {
+                pu = pu.GetUser();
+            }
+            catch (Exception ex)
+            {
+                string msg = "GetPrincipalUser() failed.";
+                System.Diagnostics.Debug.WriteLine(ex);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, msg); // 500
+            }
+            // authenticated?
+            if (!pu.IsAuthenticated)
+            {
+                string msg = "Authentication of the request failed.";
+                System.Diagnostics.Debug.WriteLine(msg);
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, msg);  // 401
+            }
+            // UserId is required
+            if (pu.UserId == 0)
+            {
+                string msg = "The UserId claim is missing or invalid.";
+                System.Diagnostics.Debug.WriteLine(msg);
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, msg);  // 401
+            }
+
             List<ActivityLevelDTO> ret_list = null;
             try
             {

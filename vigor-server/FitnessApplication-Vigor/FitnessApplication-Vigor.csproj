@@ -138,7 +138,6 @@
   <ItemGroup>
     <Compile Include="Code\PrincipalUser.cs" />
     <Compile Include="Controllers\ActivityLevelController.cs" />
-    <Compile Include="Controllers\hggController.cs" />
     <Compile Include="Controllers\PrincipalUserController.cs" />
     <Compile Include="DTO\ActivityLevelDTO.cs" />
     <Compile Include="DTO\PrincipalUserDTO.cs" />

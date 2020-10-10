@@ -24,7 +24,6 @@ export default class Login extends Component {
     let UserDetails = { ...this.state.UserDetails };
     UserDetails[key] = value;
     await this.setState({ UserDetails });
-    console.log("checking input...", key, this.state.UserDetails);
   }
 
   handleSubmit = async (e) => {
@@ -33,8 +32,13 @@ export default class Login extends Component {
     let { Username, Password } = UserDetails;
     await this.setState({ submitted: true });
     if (Username !== "" && Password !== "") {
-      await login(Username, Password);
-      window.location.replace("/"); // try and make seemless
+      let response = await login(Username, Password);
+      if (response[0] && response[0].ok) {
+        await response[1].then(user => sessionStorage.setItem("LOGGED_IN_USER", JSON.stringify(user[0])));
+        window.location.replace("/"); // try and make seemless
+      } else {
+        this.setState({ error: "Invalid username or password" });
+      }
     }
   }
 

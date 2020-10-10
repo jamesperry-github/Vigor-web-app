@@ -24,13 +24,12 @@ function login(username, password) {
     .then(response => {
       if (response.ok) {
         // login successful
+        let res = response.json();
         sessionStorage.setItem("AUTH_TOKEN", tryToken);
-        return response.json();
+        return [response, res];
       }
-      // else throw response
-      throw response;
+      return response;
     })
-    .then(user => sessionStorage.setItem("LOGGED_IN_USER", JSON.stringify(user[0])))
     .catch(err => console.error(err));
 }
 
