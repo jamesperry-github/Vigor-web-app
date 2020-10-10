@@ -139,8 +139,10 @@
     <Compile Include="Code\PrincipalUser.cs" />
     <Compile Include="Controllers\ActivityLevelController.cs" />
     <Compile Include="Controllers\PrincipalUserController.cs" />
+    <Compile Include="Controllers\RecipeController.cs" />
     <Compile Include="DTO\ActivityLevelDTO.cs" />
     <Compile Include="DTO\PrincipalUserDTO.cs" />
+    <Compile Include="DTO\RecipeDTO.cs" />
     <Compile Include="Models\ActivityLevel.cs">
       <DependentUpon>FitnessContext.tt</DependentUpon>
     </Compile>

@@ -11,9 +11,10 @@ using System.Web.Http.Cors;
 
 namespace FitnessApplication_Vigor.Controllers
 {
-    public class ActivityLevelController : ApiController
+    public class RecipeController : ApiController
     {
-        // GET api/ActivityLevel
+        // GET api/Recipes
+        // Get all user's recipes
         [BasicAuthentication]
         [EnableCors("*", "*", "*")]
         public HttpResponseMessage Get()
@@ -45,19 +46,19 @@ namespace FitnessApplication_Vigor.Controllers
                 return Request.CreateResponse(HttpStatusCode.Unauthorized, msg);  // 401
             }
 
-            List<ActivityLevelDTO> ret_list = null;
+            List<RecipeDTO> ret_list = null;
             try
             {
                 using (FitnessContext db = new FitnessContext())
                 {
-                    var ret = (
-                        from al in db.ActivityLevels
-                        select new ActivityLevelDTO
-                        {
-                            ActivityLevelId = al.ID,
-                            Name = al.Name,
-                            Description = al.Description,
-                        });
+                    //var ret = (
+                    //    from al in db.ActivityLevels
+                    //    select new RecipeDTO
+                    //    {
+                    //        ActivityLevelId = al.ID,
+                    //        Name = al.Name,
+                    //        Description = al.Description,
+                    //    });
 
                     if (ret.Count() == 0)
                     {
