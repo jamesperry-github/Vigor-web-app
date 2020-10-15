@@ -14,6 +14,27 @@
           <Property Name="Description" Type="text" Nullable="false" />
           <Property Name="Created" Type="datetime" />
         </EntityType>
+        <EntityType Name="RecipeComponents">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RecipeId" Type="int" Nullable="false" />
+          <Property Name="Component" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="Measurement" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="Calories" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="Created" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Recipes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="Created" Type="datetime" />
+        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="ID" />
@@ -42,12 +63,46 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_RecipeId">
+          <End Role="Recipes" Type="Self.Recipes" Multiplicity="1" />
+          <End Role="RecipeComponents" Type="Self.RecipeComponents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RecipeComponents">
+              <PropertyRef Name="RecipeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_UserId">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Recipes" Type="Self.Recipes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Recipes">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="FitnessModelStoreContainer">
           <EntitySet Name="ActivityLevel" EntityType="Self.ActivityLevel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecipeComponents" EntityType="Self.RecipeComponents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Recipes" EntityType="Self.Recipes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="fk_ActivityLevelId" Association="Self.fk_ActivityLevelId">
             <End Role="ActivityLevel" EntitySet="ActivityLevel" />
             <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="fk_RecipeId" Association="Self.fk_RecipeId">
+            <End Role="Recipes" EntitySet="Recipes" />
+            <End Role="RecipeComponents" EntitySet="RecipeComponents" />
+          </AssociationSet>
+          <AssociationSet Name="fk_UserId" Association="Self.fk_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Recipes" EntitySet="Recipes" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -65,6 +120,30 @@
           <Property Name="Created" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Users" Relationship="Self.fk_ActivityLevelId" FromRole="ActivityLevel" ToRole="Users" />
         </EntityType>
+        <EntityType Name="RecipeComponent">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RecipeId" Type="Int32" Nullable="false" />
+          <Property Name="Component" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Measurement" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Calories" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Recipe" Relationship="Self.fk_RecipeId" FromRole="RecipeComponents" ToRole="Recipes" />
+        </EntityType>
+        <EntityType Name="Recipe">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="RecipeComponents" Relationship="Self.fk_RecipeId" FromRole="Recipes" ToRole="RecipeComponents" />
+          <NavigationProperty Name="User" Relationship="Self.fk_UserId" FromRole="Recipes" ToRole="Users" />
+        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="ID" />
@@ -81,6 +160,7 @@
           <Property Name="ActivityLevelId" Type="Int32" Nullable="false" />
           <Property Name="Created" Type="DateTime" Precision="3" />
           <NavigationProperty Name="ActivityLevel" Relationship="Self.fk_ActivityLevelId" FromRole="Users" ToRole="ActivityLevel" />
+          <NavigationProperty Name="Recipes" Relationship="Self.fk_UserId" FromRole="Users" ToRole="Recipes" />
         </EntityType>
         <Association Name="fk_ActivityLevelId">
           <End Role="ActivityLevel" Type="Self.ActivityLevel" Multiplicity="1" />
@@ -94,12 +174,46 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_RecipeId">
+          <End Role="Recipes" Type="Self.Recipe" Multiplicity="1" />
+          <End Role="RecipeComponents" Type="Self.RecipeComponent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RecipeComponents">
+              <PropertyRef Name="RecipeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_UserId">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Recipes" Type="Self.Recipe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Recipes">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="FitnessContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ActivityLevels" EntityType="Self.ActivityLevel" />
+          <EntitySet Name="RecipeComponents" EntityType="Self.RecipeComponent" />
+          <EntitySet Name="Recipes" EntityType="Self.Recipe" />
           <EntitySet Name="Users" EntityType="Self.User" />
           <AssociationSet Name="fk_ActivityLevelId" Association="Self.fk_ActivityLevelId">
             <End Role="ActivityLevel" EntitySet="ActivityLevels" />
             <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="fk_RecipeId" Association="Self.fk_RecipeId">
+            <End Role="Recipes" EntitySet="Recipes" />
+            <End Role="RecipeComponents" EntitySet="RecipeComponents" />
+          </AssociationSet>
+          <AssociationSet Name="fk_UserId" Association="Self.fk_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Recipes" EntitySet="Recipes" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -114,6 +228,29 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RecipeComponents">
+            <EntityTypeMapping TypeName="FitnessModel.RecipeComponent">
+              <MappingFragment StoreEntitySet="RecipeComponents">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RecipeId" ColumnName="RecipeId" />
+                <ScalarProperty Name="Component" ColumnName="Component" />
+                <ScalarProperty Name="Measurement" ColumnName="Measurement" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Calories" ColumnName="Calories" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Recipes">
+            <EntityTypeMapping TypeName="FitnessModel.Recipe">
+              <MappingFragment StoreEntitySet="Recipes">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Created" ColumnName="Created" />
               </MappingFragment>
             </EntityTypeMapping>

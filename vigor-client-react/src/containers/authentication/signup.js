@@ -42,7 +42,7 @@ export default class SignUp extends Component {
     e.preventDefault();
     const { submitted, UserDetails } = this.state;
     //let { Username, Password } = UserDetails;
-    let path = "api/PrincipalUser";
+    let path = "api/CreateUser";
     UserDetails.ActivityLevelId = 4;
     UserDetails.Age = parseInt(UserDetails.Age);
     console.log("CHECK DTO", UserDetails);
@@ -107,7 +107,7 @@ export default class SignUp extends Component {
             </div>
           </div>
         </div>
-      </div >
+      </div>
     )
   }
 };

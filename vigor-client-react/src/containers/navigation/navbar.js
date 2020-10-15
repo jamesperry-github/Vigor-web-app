@@ -27,7 +27,7 @@ export default class Nav extends Component {
         <li className="nav-item">
           <Link
             className="nav-link"
-            //to="/login"
+            to=""
             onClick={() => {
               window.location.replace("/login");
               logout();
@@ -61,37 +61,36 @@ export default class Nav extends Component {
 
   pullRight = () => {
     return (
-      <div className="nav-content">
-        <ul className="nav">
-          {this.navLink("/profile", "My Profile")}
-          {this.signupBtn()}
-          {this.authBtn()}
-        </ul>
-      </div>
+      <ul className="nav">
+        {this.navLink("/profile", "My Profile")}
+        {this.signupBtn()}
+        {this.authBtn()}
+      </ul>
     )
   }
 
   render() {
     return (
-      <nav className="navbar navbar-dark bg-dark">
-        <div className="nav-content">
-          <h3
-            className="nav-h3"
-            style={{
-              paddingLeft: "15px",
-              color: "white",
-              cursor: "pointer"
-            }}
-            onClick={() => window.location.replace("/")}
-          >Vigor</h3>
+      <nav className="navbar-dark bg-dark">
+        <h3
+          className="nav-h3"
+          style={{
+            display: "inline",
+            padding: ".5rem 2rem",
+            color: "white",
+            cursor: "pointer"
+          }}
+          onClick={() => window.location.replace("/")}
+        >Vigor</h3>
+        <div className="navbar">
           <ul className="nav">
             {this.navLink("/", "Home")}
             {this.navLink("/", "About")}
-            {this.navLink("/", "My Recipes")}
+            {this.navLink("/recipes", "Recipes")}
             {this.navLink("/", "Contact Us")}
           </ul>
+          {this.pullRight()}
         </div>
-        {this.pullRight()}
       </nav>
     )
   };

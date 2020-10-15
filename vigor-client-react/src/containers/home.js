@@ -8,7 +8,7 @@ export default class Home extends Component {
     super();
 
     this.state = {
-      
+
     }
   }
 
@@ -38,7 +38,7 @@ export default class Home extends Component {
             {this.cardContent()}
           </div>
         </div>
-      </div >
+      </div>
     )
   }
 }

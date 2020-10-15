@@ -16,6 +16,7 @@ namespace FitnessApplication_Vigor.Controllers
         // GET api/ActivityLevel
         [BasicAuthentication]
         [EnableCors("*", "*", "*")]
+        [Route("api/GetActivityLevel")]
         public HttpResponseMessage Get()
         {
             // check logged user

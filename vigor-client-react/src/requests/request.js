@@ -1,4 +1,4 @@
-function manageData(apiPath, method = "GET", dto = {}) {
+function manageData(path, method = "GET", dto = {}) {
   let baseUrl = 'http://localhost:55960/';
   let data = {
     method: method,
@@ -12,25 +12,39 @@ function manageData(apiPath, method = "GET", dto = {}) {
     // delete this obj key if we only want to read data
     delete data.body
   }
-  return fetch(baseUrl + apiPath, data)
+  return fetch(baseUrl + path, data)
     .then(response => {
       if (response.ok) {
-        return response.json();
+        if(method === "GET") {
+          return response.json();
+        } else {
+          return response;
+        }
       }
       return response;
     })
     .catch(err => console.error(err));
 };
 
-function getData(apiPath) {
-  return manageData(apiPath);
+function getData(path) {
+  return manageData(path);
 }
 
-function postData(apiPath, payload) {
-  return manageData(apiPath, "POST", payload);
+function postData(path, payload) {
+  return manageData(path, "POST", payload);
+}
+
+function destroyData(path, payload) {
+  return manageData(path, "DELETE", payload);
+}
+
+function putData(path, payload) {
+  return manageData(path, "PUT", payload);
 }
 
 export {
   getData,
   postData,
+  destroyData,
+  putData,
 };

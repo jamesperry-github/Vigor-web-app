@@ -11,14 +11,82 @@ using System.Web.Http.Cors;
 
 namespace FitnessApplication_Vigor.Controllers
 {
-    public class PrincipalUserController : ApiController
+    public class RecipeComponentsController : ApiController
     {
-        // GET: api/PrincipalUser
-        // READ USER
+        // GET api/GetRecipeComponents
+        // Get all user's recipes
         [BasicAuthentication]
         [EnableCors("*", "*", "*")]
-        [Route("api/GetPrincipalUser")]
-        public HttpResponseMessage Get()
+        [Route("api/GetRecipeComponents")]
+        public HttpResponseMessage Get(int recipeid)
+        {
+            // check logged user
+            PrincipalUser pu = new PrincipalUser();
+            try
+            {
+                pu = pu.GetUser();
+            }
+            catch (Exception ex)
+            {
+                string msg = "GetPrincipalUser() failed.";
+                System.Diagnostics.Debug.WriteLine(ex);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, msg); // 500
+            }
+            // authenticated?
+            if (!pu.IsAuthenticated)
+            {
+                string msg = "Authentication of the request failed.";
+                System.Diagnostics.Debug.WriteLine(msg);
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, msg);  // 401
+            }
+            // UserId is required
+            if (pu.UserId == 0)
+            {
+                string msg = "The UserId claim is missing or invalid.";
+                System.Diagnostics.Debug.WriteLine(msg);
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, msg);  // 401
+            }
+            
+            // return list
+            List<RecipeComponentDTO> ret_list = null;
+
+            try
+            {
+                using (FitnessContext db = new FitnessContext())
+                {
+                    var ret = (
+                        from c in db.RecipeComponents
+                        where c.RecipeId == recipeid
+                        select new RecipeComponentDTO
+                        {
+                             RecipeId = c.RecipeId,
+                             Component = c.Component,
+                             Measurement = c.Measurement,
+                             Quantity = c.Quantity,
+                             Calories = c.Calories
+                         });
+
+                    if (ret.Count() == 0)
+                    {
+                        // no data
+                        return Request.CreateResponse(HttpStatusCode.NotFound, "DB operation returned no data."); // 404
+                    }
+                    ret_list = ret.ToList();
+                }
+            }
+            catch
+            {
+                // error in code
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "DB operation returned an error"); // 500
+            }
+            // returning list 
+            return Request.CreateResponse(HttpStatusCode.OK, ret_list); // 200
+        }
+        // add recipe component
+        [BasicAuthentication]
+        [EnableCors("*", "*", "*")]
+        [Route("api/CreateRecipeComponent")]
+        public HttpResponseMessage Post([FromBody] RecipeComponent component)
         {
             // check logged user
             PrincipalUser pu = new PrincipalUser();
@@ -47,62 +115,16 @@ namespace FitnessApplication_Vigor.Controllers
                 return Request.CreateResponse(HttpStatusCode.Unauthorized, msg);  // 401
             }
 
-            // retrun list
-            List<PrincipalUserDTO> ret_list = null;
             try
             {
                 using (FitnessContext db = new FitnessContext())
                 {
-                    var ret = (from u in db.Users
-                               join al in db.ActivityLevels on u.ActivityLevelId equals al.ID
-                               where u.ID == pu.UserId
-                               select new PrincipalUserDTO
-                               {
-                                   UserId = u.ID,
-                                   Username = u.UserName,
-                                   Password = u.Password,
-                                   Email = u.Email,
-                                   Firstname = u.FirstName,
-                                   Lastname = u.LastName,
-                                   Age = u.Age,
-                                   Height = u.Height,
-                                   Weight = u.Weight,
-                                   ActivityLevelId = u.ActivityLevelId,
-                                   ActivityLevelName = al.Name,
-                                   ActivityLevelDescription = al.Description
-                               });
-                    // Got data?
-                    if (ret.Count() == 0)
-                    {
-                        string msg = "DB operation returned no data.";
-                        return Request.CreateResponse(HttpStatusCode.NotFound, msg);  // 404
-                    }
-                    ret_list = ret.ToList();
-                }
-            }
-            catch
-            {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, "DB operation returned an error"); // 500
-            }
-            // returning list 
-            return Request.CreateResponse(HttpStatusCode.OK, ret_list); // 200
-        }
-        // POST: api/PrincipalUser
-        // CREATE USER
-        [EnableCors("*", "*", "*")]
-        [Route("api/CreateUser")]
-        public HttpResponseMessage Post([FromBody] User user)
-        {
-            try
-            {
-                using (FitnessContext db = new FitnessContext())
-                {
-                    user.Created = DateTime.Now;
-                    db.Users.Add(user);
+                    component.Created = DateTime.Now;
+                    db.RecipeComponents.Add(component);
                     db.SaveChanges();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex); // 500
             }

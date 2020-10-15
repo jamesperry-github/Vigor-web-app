@@ -11,7 +11,7 @@ function checkLogin() {
 
 function login(username, password) {
   let baseUrl = "http://localhost:55960/"; // TODO: code this into ENV file
-  let apiPath = "api/PrincipalUser";
+  let apiPath = "api/GetPrincipalUser";
   let tryToken = `Basic ${btoa(username + ":" + password)}`;
   const requestOptions = {
     method: "GET",

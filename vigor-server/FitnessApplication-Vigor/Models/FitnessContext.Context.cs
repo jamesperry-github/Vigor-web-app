@@ -26,6 +26,8 @@ namespace FitnessApplication_Vigor.Models
         }
     
         public virtual DbSet<ActivityLevel> ActivityLevels { get; set; }
+        public virtual DbSet<RecipeComponent> RecipeComponents { get; set; }
+        public virtual DbSet<Recipe> Recipes { get; set; }
         public virtual DbSet<User> Users { get; set; }
     }
 }

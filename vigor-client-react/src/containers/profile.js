@@ -86,7 +86,7 @@ export default class Profile extends Component {
             {this.cardContent()}
           </div>
         </div>
-      </div >
+      </div>
     );
   }
 };

@@ -13,10 +13,11 @@ namespace FitnessApplication_Vigor.Controllers
 {
     public class RecipeController : ApiController
     {
-        // GET api/Recipes
+        // GET api/GetRecipes
         // Get all user's recipes
         [BasicAuthentication]
         [EnableCors("*", "*", "*")]
+        [Route ("api/GetRecipes")]
         public HttpResponseMessage Get()
         {
             // check logged user
@@ -51,14 +52,14 @@ namespace FitnessApplication_Vigor.Controllers
             {
                 using (FitnessContext db = new FitnessContext())
                 {
-                    //var ret = (
-                    //    from al in db.ActivityLevels
-                    //    select new RecipeDTO
-                    //    {
-                    //        ActivityLevelId = al.ID,
-                    //        Name = al.Name,
-                    //        Description = al.Description,
-                    //    });
+                    var ret = (
+                        from r in db.Recipes
+                        where r.UserId == pu.UserId
+                        select new RecipeDTO
+                        {
+                            RecipeId = r.ID,
+                            Name = r.Name,
+                        });
 
                     if (ret.Count() == 0)
                     {
@@ -75,6 +76,160 @@ namespace FitnessApplication_Vigor.Controllers
             }
             // returning list 
             return Request.CreateResponse(HttpStatusCode.OK, ret_list); // 200
+        }
+        // Create a recipe
+        [BasicAuthentication]
+        [EnableCors("*", "*", "*")]
+        [Route("api/CreateRecipe")]
+        public HttpResponseMessage Post([FromBody] Recipe recipe)
+        {
+            // check logged user
+            PrincipalUser pu = new PrincipalUser();
+            try
+            {
+                pu = pu.GetUser();
+            }
+            catch (Exception ex)
+            {
+                string msg = "GetPrincipalUser() failed.";
+                System.Diagnostics.Debug.WriteLine(ex);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, msg); // 500
+            }
+            // authenticated?
+            if (!pu.IsAuthenticated)
+            {
+                string msg = "Authentication of the request failed.";
+                System.Diagnostics.Debug.WriteLine(msg);
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, msg);  // 401
+            }
+            // UserId is required
+            if (pu.UserId == 0)
+            {
+                string msg = "The UserId claim is missing or invalid.";
+                System.Diagnostics.Debug.WriteLine(msg);
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, msg);  // 401
+            }
+
+            try
+            {
+                using (FitnessContext db = new FitnessContext())
+                {
+                    recipe.Created = DateTime.Now;
+                    db.Recipes.Add(recipe);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex); // 500
+            }
+            return Request.CreateResponse(HttpStatusCode.OK); // 200
+        }
+        // delete a recipe
+        [BasicAuthentication]
+        [EnableCors("*", "*", "*")]
+        [Route("api/RemoveRecipe")]
+        public HttpResponseMessage Delete(int recipeid)
+        {
+            // check logged user
+            PrincipalUser pu = new PrincipalUser();
+            try
+            {
+                pu = pu.GetUser();
+            }
+            catch (Exception ex)
+            {
+                string msg = "GetPrincipalUser() failed.";
+                System.Diagnostics.Debug.WriteLine(ex);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, msg); // 500
+            }
+            // authenticated?
+            if (!pu.IsAuthenticated)
+            {
+                string msg = "Authentication of the request failed.";
+                System.Diagnostics.Debug.WriteLine(msg);
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, msg);  // 401
+            }
+            // UserId is required
+            if (pu.UserId == 0)
+            {
+                string msg = "The UserId claim is missing or invalid.";
+                System.Diagnostics.Debug.WriteLine(msg);
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, msg);  // 401
+            }
+
+            try
+            {
+                using (FitnessContext db = new FitnessContext())
+                {
+                    var x = (from r in db.Recipes
+                             where recipeid == r.ID && r.UserId == pu.UserId
+                             orderby r.ID descending
+                             select r
+                             ).FirstOrDefault();
+                    //System.Diagnostics.Debug.WriteLine(x.Name);
+                    db.Recipes.Remove(x);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex); // 500
+            }
+            return Request.CreateResponse(HttpStatusCode.OK); // 200
+        }
+        // update a recipe
+        [BasicAuthentication]
+        [EnableCors("*", "*", "*")]
+        [Route("api/UpdateRecipe")]
+        public HttpResponseMessage Put([FromBody] Recipe recipe, int recipeid)
+        {
+            // check logged user
+            PrincipalUser pu = new PrincipalUser();
+            try
+            {
+                pu = pu.GetUser();
+            }
+            catch (Exception ex)
+            {
+                string msg = "GetPrincipalUser() failed.";
+                System.Diagnostics.Debug.WriteLine(ex);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, msg); // 500
+            }
+            // authenticated?
+            if (!pu.IsAuthenticated)
+            {
+                string msg = "Authentication of the request failed.";
+                System.Diagnostics.Debug.WriteLine(msg);
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, msg);  // 401
+            }
+            // UserId is required
+            if (pu.UserId == 0)
+            {
+                string msg = "The UserId claim is missing or invalid.";
+                System.Diagnostics.Debug.WriteLine(msg);
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, msg);  // 401
+            }
+
+            try
+            {
+                using (FitnessContext db = new FitnessContext())
+                {
+                    var x = (from r in db.Recipes
+                             where recipeid == r.ID && r.UserId == pu.UserId
+                             orderby r.ID descending
+                             select r
+                             ).FirstOrDefault();
+                    //System.Diagnostics.Debug.WriteLine(x.Name);
+                    x.Name = recipe.Name;
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex); // 500
+            }
+            return Request.CreateResponse(HttpStatusCode.OK); // 200
         }
     }
 }
