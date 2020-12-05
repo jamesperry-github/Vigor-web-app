@@ -49,65 +49,15 @@ export default class SearchFood extends Component {
     // }, 300);
   }
 
-  // searchResults = () => {
-  //   let { loading, RecipesContainer, queryCount } = this.state;
-  //   if (loading) {
-  //     return loadSpinner();
-  //   } else {
-  //     let FoodDetail = (item, label = "") => {
-  //       return <p
-  //         className="detail-item"
-  //         style={{
-  //           fontSize: "80%"
-  //         }}
-  //       >{label} {item}</p>
-  //     }
-  //     return (
-  //       <div>
-  //         <p>Total: {queryCount}</p>
-  //         <p>Response Length: {RecipesContainer.length}</p>
-  //         <div className="recipe-display">
-  //           {RecipesContainer.map((itm, idx) => {
-  //             return (
-  //               <div
-  //                 className="card"
-  //                 style={{
-  //                   //height: "200px",
-  //                   //width: "200px",
-  //                   width: "25%",
-  //                   float: "right"
-  //                 }}
-  //               >
-  //                 <img
-  //                   className="card-img-top"
-  //                   style={{
-  //                     height: "50%"
-  //                   }}
-  //                   src={itm.recipe.image}
-  //                   alt="Card image cap"
-  //                 />
-  //                 <div className="card-body">
-  //                   {FoodDetail(itm.recipe.label)}
-  //                   {FoodDetail(itm.recipe.calories, "KCAL:")}
-  //                   <a href="#" className="btn btn-primary">Go somewhere</a>
-  //                 </div>
-  //               </div>
-  //             )
-  //           })}
-  //         </div>
-  //       </div>
-  //     )
-  //   }
-  // }
-
   tableBody = () => {
-    let { RecipesContainer } = this.state;
+    let { RecipesContainer, from, to } = this.state;
     if (RecipesContainer && RecipesContainer.length > 0) {
       return (
         RecipesContainer.map((itm, idx) => {
+          from++;
           return (
             <tr key={idx}>
-              <td scope="row"><b>{idx + 1}</b></td>
+              <td scope="row"><b>{from}</b></td>
               <td>
                 <img
                   src={itm.recipe.image}
@@ -136,7 +86,7 @@ export default class SearchFood extends Component {
       if (RecipesContainer.length > 0) {
         return (
           <div>
-            <br/>
+            <br />
             <table className="table table-hover">
               <thead className="thead-dark">
                 <tr>
@@ -150,10 +100,73 @@ export default class SearchFood extends Component {
                 {this.tableBody()}
               </tbody>
             </table>
+            {this.searchPagination()}
           </div>
         )
       }
     }
+  }
+
+  searchPagination = () => {
+    //// *** 55008/20
+    let linkItm = (number) => {
+      return <li className="page-item">
+        <a
+          className="page-link"
+          onClick={async () => {
+            switch (number) {
+              case "1":
+                await this.setState({
+                  from: 0,
+                  to: 20
+                });
+                break;
+              case "2":
+                await this.setState({
+                  from: 20,
+                  to: 40
+                });
+                break;
+              case "3":
+                await this.setState({
+                  from: 40,
+                  to: 60
+                });
+                break;
+              case "4":
+                await this.setState({
+                  from: 60,
+                  to: 80
+                });
+                break;
+              case "5":
+                await this.setState({
+                  from: 80,
+                  to: 100
+                });
+                break;
+              default:
+                break;
+            }
+            this.fetchRecipesFromSearch();
+          }}
+        >{number}</a></li>
+    }
+    return (
+      <div
+        className="page-link-container"
+      >
+        <ul className="pagination justify-content-center">
+          <li className="page-item"><a className="page-link">Previous</a></li>
+          {linkItm("1")}
+          {linkItm("2")}
+          {linkItm("3")}
+          {linkItm("4")}
+          {linkItm("5")}
+          <li className="page-item"><a className="page-link">Next</a></li>
+        </ul>
+      </div>
+    )
   }
 
   cardContent = () => {
