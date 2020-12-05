@@ -86,7 +86,9 @@ export default class Nav extends Component {
           <ul className="nav">
             {this.navLink("/", "Home")}
             {this.navLink("/", "About")}
-            {this.navLink("/recipes", "Recipes")}
+            {/* {this.navLink("/my-recipes", "My Recipes")} */}
+            {this.navLink("/search-recipes", "Search Recipes")}
+            {this.navLink("/", "Task Scheduler")}
             {this.navLink("/", "Contact Us")}
           </ul>
           {this.pullRight()}

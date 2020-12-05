@@ -181,7 +181,7 @@ namespace FitnessApplication_Vigor.Controllers
         // update a recipe
         [BasicAuthentication]
         [EnableCors("*", "*", "*")]
-        [Route("api/UpdateRecipe")]
+        [Route("api/UpdateRecipe")]  // TODO:: Combine create recipe components w/ update recipe method...
         public HttpResponseMessage Put([FromBody] Recipe recipe, int recipeid)
         {
             // check logged user

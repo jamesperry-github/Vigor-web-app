@@ -4,7 +4,7 @@ import DeleteModal from './components/delete-recipe-modal';
 import { getData, postData, destroyData } from '../../requests/request';
 import { loadSpinner } from '../../components/spinner';
 
-export default class Recipes extends Component {
+export default class UserRecipes extends Component {
   constructor(props) {
     super(props);
 
@@ -140,6 +140,16 @@ export default class Recipes extends Component {
               className="btn btn-outline-dark"
               onClick={this.handleSubmit}
             >✔</button>
+          </td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-danger"
+              style={{
+                fontWeight: "bolder",
+              }}
+              onClick={() => this.setState({ canInsert: !this.state.canInsert, InsertData: { Name: "" } })}
+            >X</button>
           </td>
         </tr>
       )

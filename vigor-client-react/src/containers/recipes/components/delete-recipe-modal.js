@@ -36,6 +36,9 @@ export default class DeleteModal extends Component {
         <button
           type="button"
           className="btn btn-danger"
+          style={{
+            fontWeight: "bolder",
+          }}
           onClick={this.handleOpen}
         >X</button>
         <Modal

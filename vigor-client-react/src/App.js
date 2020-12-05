@@ -7,7 +7,8 @@ import Home from './containers/home';
 import Login from './containers/authentication/login';
 import SignUp from './containers/authentication/signup';
 import Profile from './containers/profile';
-import Recipes from './containers/recipes/recipes';
+import UserRecipes from './containers/recipes/user-recipes';
+import SearchRecipes from './containers/recipes/search-recipes';
 
 export default class App extends Component {
   routing = () => {
@@ -20,7 +21,8 @@ export default class App extends Component {
             <Route path="/login" component={Login} />
             <Route exact path="/sign-up" component={SignUp} />
             <Route path="/profile" component={Profile} />
-            <Route path="/recipes" component={Recipes} />
+            {/* <Route path="/my-recipes" component={UserRecipes} /> */}
+            <Route path="/search-recipes" component={SearchRecipes} />
             {/* <Route path="/logout" component={Logout} />
             <Route exact path="/sign-up" component={SignUp} />
             <PrivateRoute exact path="/about" component={aboutPage} />

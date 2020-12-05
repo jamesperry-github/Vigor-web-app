@@ -1,4 +1,4 @@
-function manageData(path, method = "GET", dto = {}) {
+function manageData(path, method = "GET", dto = {}, isEdamam = false) {
   let baseUrl = 'http://localhost:55960/';
   let data = {
     method: method,
@@ -6,13 +6,15 @@ function manageData(path, method = "GET", dto = {}) {
     headers: {
       "Authorization": sessionStorage.AUTH_TOKEN,
       "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*"
     }
   };
   if (method === "GET") {
     // delete this obj key if we only want to read data
     delete data.body
   }
-  return fetch(baseUrl + path, data)
+  let apiPath = !isEdamam ? baseUrl + path : path;
+  return fetch(apiPath, data)
     .then(response => {
       if (response.ok) {
         if(method === "GET") {
@@ -26,8 +28,8 @@ function manageData(path, method = "GET", dto = {}) {
     .catch(err => console.error(err));
 };
 
-function getData(path) {
-  return manageData(path);
+function getData(path, isEdamam) {
+  return manageData(path, "GET", {}, isEdamam);
 }
 
 function postData(path, payload) {

@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { getData, putData } from '../../../requests/request';
+import { getData, postData } from '../../../requests/request';
 import { loadSpinner } from '../../../components/spinner';
 import { Modal, Button } from 'react-bootstrap';
 
@@ -15,7 +15,10 @@ export default class RecipeModal extends Component {
       canEditTitle: false,
       RecipeTitle: this.props.Title,
       InsertData: {
-        Name: ""
+        Name: "",
+        Measurement: "",
+        Quantity: "", //int
+        Calories: "",
       },
     }
   }
@@ -39,17 +42,31 @@ export default class RecipeModal extends Component {
   }
 
   handleSubmit = async () => {
-    let { loading, RecipeTitle } = this.state;
-    await this.setState({ loading: true });
-    let path = `api/UpdateRecipe?recipeid=${this.props.RecipeId}`;
-    let dto = {
-      Name: RecipeTitle,
-    }
-    let response = await putData(path, dto).then(data => data).catch(err => console.error(err));
-    if (response.ok) {
-      this.props.Refresh();
+    //insert into Fitness.dbo.RecipeComponents(RecipeId, Component, Measurement, Quantity, Calories)
+    let { RecipeTitle, InsertData, canInsertData } = this.state;
+    if (canInsertData) {
+      await this.setState({ loading: true });
+      //let path = `api/UpdateRecipe?recipeid=${this.props.RecipeId}`;
+      let { Name, Measurement, Quantity, Calories } = InsertData;
+      let path = 'api/CreateRecipeComponent';
+      let dto = {
+        RecipeId: this.props.RecipeId,
+        Component: Name,
+        Measurement,
+        Quantity: parseInt(Quantity),
+        Calories
+      }
+      //console.log("DTO", dto);
+      let response = await postData(path, dto).then(data => data).catch(err => console.error(err));
+      if (response.ok) {
+        this.props.Refresh();
+      } else {
+        console.log(response);
+      }
     } else {
-      console.log(response);
+      //alert("CLOSE MODAL");
+      let ingr = ["1 cup rice", "1 egg"];
+      console.log(JSON.stringify(ingr));
     }
   }
 
@@ -63,25 +80,34 @@ export default class RecipeModal extends Component {
 
   InsertField = () => {
     let { canInsertData, InsertData, List, ListCount } = this.state;
-    let { Name } = InsertData;
+    let { Name, Measurement, Quantity, Calories } = InsertData;
     if (canInsertData) {
+      let tblField = (value, key) => {
+        return (
+          <td>
+            <input
+              placeholder={key + "!"}
+              style={{ width: "80%" }}
+              value={value}
+              onChange={(e) => this.handleInputChange(e, key)}
+            />
+          </td>
+        )
+      }
       return (
         <tr>
           <th scope="row">#</th>
-          <td>
-            <input
-              placeholder="Recipe Name!"
-              value={Name}
-              onChange={(e) => this.handleInputChange(e, "Name")}
-            />
-          </td>
-          <td>
+          {tblField(Name, "Name")}
+          {tblField(Measurement, "Measurement")}
+          {tblField(Quantity, "Quantity")}
+          {tblField(Calories, "Calories")}
+          {/* <td>
             <button
               type="button"
               className="btn btn-outline-dark"
               onClick={this.handleSubmit}
             >✔</button>
-          </td>
+          </td> */}
         </tr>
       )
     } else {
@@ -175,24 +201,36 @@ export default class RecipeModal extends Component {
               onClick={() => this.setState({ canEditTitle: !canEditTitle, RecipeTitle: this.props.Title })}
             ></i>
           </Modal.Title>
-          <button
-            type="button"
-            class="btn btn-success"
+          <span //btn container
             style={{
               float: "right",
-              borderRadius: "50%",
               fontWeight: "bolder",
-            }}
-            onClick={() => this.setState({ canInsertData: !canInsertData, InsertData: { Name: "" } })}
-          >+</button>
+            }}>
+            <button
+              type="button"
+              class="btn btn-success"
+              style={{
+                borderRadius: "50%",
+                fontWeight: "bolder",
+              }}
+              onClick={() => this.setState({ canInsertData: !canInsertData, InsertData: { Name: "" } })}
+            >+</button>
+            <button
+              class="btn btn-danger"
+              style={{
+                fontWeight: "bolder",
+              }}
+              variant="secondary"
+              onClick={() => this.setState({ showModal: false })}
+            >
+              X
+            </button>
+          </span>
         </Modal.Header>
         <Modal.Body>
           {this.gridContent()}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => this.setState({ showModal: false })}>
-            Close
-            </Button>
           <Button variant="primary" onClick={this.handleSubmit}>Understood</Button>
         </Modal.Footer>
       </div>
