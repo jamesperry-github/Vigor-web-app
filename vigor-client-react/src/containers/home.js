@@ -1,15 +1,14 @@
 import React, { Component, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { checkLogin } from '../config/session';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { increment } from '../actions/actions';
 
 export default function Home() {
   const hist = useHistory();
-  const isLogged = useSelector(state => state.isLogged);
-  console.log("ISLOGGED", isLogged);
+  const IsLogged = useSelector(state => state.IsLogged);
 
   useEffect (() => {
-    if (!checkLogin()) {
+    if (!IsLogged) {
       hist.push("/login");
     }
   })

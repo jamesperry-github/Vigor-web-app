@@ -16,7 +16,7 @@ const myStore = createStore(
 ReactDOM.render(
   <Provider store={myStore}>
     <React.StrictMode>
-      <App />
+      {App()}
     </React.StrictMode>
   </Provider>,
   document.getElementById('root')

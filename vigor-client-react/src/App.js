@@ -10,8 +10,7 @@ import Profile from './containers/profile';
 import UserRecipes from './containers/recipes/user-recipes';
 import SearchRecipes from './containers/recipes/search-recipes';
 
-export default class App extends Component {
-  routing = () => {
+export default function App() {
     return (
       <Router>
         <Fragment>
@@ -35,11 +34,6 @@ export default class App extends Component {
         </Fragment>
       </Router>
     );
-  }
-
-  render() {
-    return this.routing();
-  }
 };
 
 // class PrivateRoute extends Component {

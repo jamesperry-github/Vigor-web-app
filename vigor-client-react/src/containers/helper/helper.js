@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-function formInput(key, value, handleChange, submitted = false, type = "text") {
+export function formInput(key, value, handleChange, submitted = false, type = "text") {
   return (
     <Fragment>
       <input
@@ -17,7 +17,7 @@ function formInput(key, value, handleChange, submitted = false, type = "text") {
   )
 };
 
-function formGroupWrapper(label, element, wrapperStyle = {}, labelStyle = {}) {
+export function formGroupWrapper(label, element, wrapperStyle = {}, labelStyle = {}) {
   return (
     <div className='form-group'>
       <label
@@ -26,9 +26,4 @@ function formGroupWrapper(label, element, wrapperStyle = {}, labelStyle = {}) {
       {element}
     </div>
   )
-}
-
-export {
-  formInput,
-  formGroupWrapper,
 }
