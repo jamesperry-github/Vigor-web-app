@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { getData } from './requests/request';
-//import Nav from './containers/navigation/navbar';
-import Test from './containers/navigation/Test';
+import Nav from './containers/navigation/navbar';
 import NoPathMatch from './containers/navigation/no-path-match';
 import Home from './containers/home';
 import Login from './containers/authentication/login';
@@ -10,15 +9,13 @@ import SignUp from './containers/authentication/signup';
 import Profile from './containers/profile';
 import UserRecipes from './containers/recipes/user-recipes';
 import SearchRecipes from './containers/recipes/search-recipes';
-import Dashboard from './containers/MaterialUIComponents/dashboard/Dashboard';
 
 export default class App extends Component {
   routing = () => {
     return (
       <Router>
         <Fragment>
-          {/* <Nav /> */}
-          <Test />
+          <Nav />
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/login" component={Login} />

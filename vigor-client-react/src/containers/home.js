@@ -1,24 +1,20 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { checkLogin } from '../config/session';
+import { useSelector } from 'react-redux';
 
+export default function Home() {
+  const hist = useHistory();
+  const isLogged = useSelector(state => state.isLogged);
+  console.log("ISLOGGED", isLogged);
 
-export default class Home extends Component {
-
-  constructor() {
-    super();
-
-    this.state = {
-
-    }
-  }
-
-  componentDidMount() {
+  useEffect (() => {
     if (!checkLogin()) {
-      this.props.history.push("/login");
+      hist.push("/login");
     }
-  }
+  })
 
-  cardContent = () => {
+  const cardContent = () => {
     return (
       <div>
         <div className="card-header">
@@ -29,16 +25,15 @@ export default class Home extends Component {
         </div>
       </div>
     )
-  }
-  render() {
-    return (
-      <div className="home container">
-        <div className="home full-card">
-          <div className="home card">
-            {this.cardContent()}
-          </div>
+  };
+
+  return (
+    <div className="home container">
+      <div className="home full-card">
+        <div className="home card">
+          {cardContent()}
         </div>
       </div>
-    )
-  }
-}
+    </div>
+  );
+};
