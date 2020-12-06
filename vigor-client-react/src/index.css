@@ -1,5 +1,5 @@
 body {
-  background: rgb(61, 154, 190);
+  background: #343a40;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -9,7 +9,7 @@ body {
 }
 
 .container {
-
+  margin-top: 6%;
 }
 
 .container > .full-card {
@@ -19,4 +19,10 @@ body {
 .container > .full-card > .card {
     width: 100%;
     padding: 30px;
+    background-color: #24282c;
+    color: white;
+}
+
+.card-header {
+  background-color: #343a40;
 }

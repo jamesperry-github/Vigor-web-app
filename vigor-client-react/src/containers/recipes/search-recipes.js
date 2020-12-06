@@ -87,7 +87,7 @@ export default class SearchFood extends Component {
         return (
           <div>
             <br />
-            <table className="table table-hover">
+            <table className="table table-hover table-light">
               <thead className="thead-dark">
                 <tr>
                   <th scope="col">#</th>
