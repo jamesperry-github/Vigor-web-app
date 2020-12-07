@@ -9,18 +9,17 @@ export default function Nav() {
   const hist = useHistory();
   const dispatch = useDispatch();
   const IsLogged = useSelector(state => state.IsLogged);
+  const [navDisplay, setNavDisplay] = useState(false);
 
-  const navLink = (link, description, icon) => {
-    if (IsLogged) {
-      return (
-        <Fragment>
-          <Link
-            className="sidenav-link"
-            to={link}
-          >{icon}&nbsp;&nbsp;{description}</Link>
-        </Fragment>
-      )
-    } else return;
+  const navLink = (link, description = "", icon) => {
+    return (
+      <Fragment>
+        <Link
+          className="sidenav-link"
+          to={link}
+        >{icon}{navDisplay ? <span className="sidenav-link-name">{description}</span> : null}</Link>
+      </Fragment>
+    )
   };
 
   const authBtn = () => {
@@ -31,8 +30,8 @@ export default function Nav() {
           to=""
           onClick={() => {
             hist.push("/login");
-            logout();
             dispatch({ type: "LOG_OUT" });
+            logout();
           }}>Logout</Link>
       )
     } else {
@@ -61,26 +60,49 @@ export default function Nav() {
       <div className="right-nav">
         {authBtn()}
         {signupBtn()}
-        <Link className="right-nav-link" to={"/profile"}>My Profile</Link>
+        {IsLogged ? <Link className="right-nav-link" to={"/profile"}>My Profile</Link> : null}
       </div>
     )
+  }
+
+  const brand = () => {
+    let brandClass = "brand"
+    if (!IsLogged || !navDisplay) {
+      brandClass = "brand-closed"
+    }
+    return <span className={brandClass} onClick={() => window.location.replace("/")}>Vigor</span>
+  }
+
+  const sideNav = () => {
+    if (IsLogged) {
+      let navClass = "sidenav";
+      let btnClass = "open";
+      if (!navDisplay) {
+        navClass = "sidenav-closed";
+        btnClass = "closed";
+      }
+      return (
+        <div className={navClass}>
+          <div className="sidenav-close"><span className={btnClass} onClick={() => setNavDisplay(!navDisplay)}>{"<"}</span></div>
+          {navLink("/", "Home", icons.home)}
+          {navLink("/", "About", icons.about)}
+          {/* {navLink("/my-recipes", "My Recipes")} */}
+          {navLink("/search-recipes", "Search Recipes", icons.search)}
+          {navLink("/", "Task Scheduler", icons.taskScheduler)}
+          {navLink("/", "Contact Us", icons.contactUs)}
+          <div style={{ borderTop: "1px solid black", margin: "1px", }}></div>
+        </div>
+      )
+    }
   }
 
   return (
     <div>
       <div className="command-bar">
-        <span className="brand">Vigor</span>
+        {brand()}
         {rightNav()}
       </div>
-      <div className="sidenav">
-        <div className="sidenav-close"><button>{"<"}</button></div>
-        {navLink("/", "Home", icons.home)}
-        {navLink("/", "About", icons.about)}
-        {/* {navLink("/my-recipes", "My Recipes")} */}
-        {navLink("/search-recipes", "Search Recipes", icons.search)}
-        {navLink("/", "Task Scheduler", icons.taskScheduler)}
-        {navLink("/", "Contact Us", icons.contactUs)}
-      </div>
+      {sideNav()}
     </div>
   )
 };

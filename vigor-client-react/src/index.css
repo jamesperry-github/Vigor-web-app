@@ -14,6 +14,18 @@ body {
   border-bottom: 1px solid black;
 }
 
+.sidenav-closed {
+  height: 100%;
+  width: 85px;
+  position: fixed;
+  z-index: 1;
+  top: 0px;
+  left: 0;
+  overflow-x: hidden;
+  background: #24282c;
+  border-right: 1px solid black;
+}
+
 .sidenav {
   height: 100%;
   width: 250px;
@@ -32,17 +44,57 @@ body {
   display: block;
   padding: 20px 20px;
   border: 1px solid black;
+  margin: 1px;
 }
 
 .sidenav-link:hover {
-  color:rgb(87, 6, 236);
+  color: rgb(87, 6, 236);
   text-decoration: none;
+}
+
+.sidenav-link-name {
+  position: relative;
+  top: 3px;
+  left: 20px;
 }
 
 .sidenav-close {
   width: 100%;
   height: 70px;
-  border: 1px solid black;
+  border-bottom: 1px solid black;
+  text-align: center;
+}
+
+.sidenav-close .open {
+  position: relative;
+  top: 10%;
+  right: 5%;
+  color: white;
+  cursor: pointer;
+  font-size: 32px;
+  float: right;
+}
+
+.sidenav-close .closed {
+  position: relative;
+  top: 10%;
+  color: white;
+  cursor: pointer;
+  font-size: 32px;
+}
+
+.brand-closed {
+  text-align: center;
+  position: fixed;
+  z-index: 1;
+  left: 105px;
+  width: 70px;
+  height: 70px;
+  cursor: pointer;
+  padding-top: 6px;
+  font-size: 32px;
+  font-weight: bolder;
+  color: white;
 }
 
 .brand {
@@ -52,17 +104,11 @@ body {
   left: 270px;
   width: 70px;
   height: 70px;
- 
+  cursor: pointer;
   padding-top: 6px;
   font-size: 32px;
   font-weight: bolder;
   color: white;
-}
-
-.sidenav-close button {
-  float: right;
-  position: relative;
-  top: 30%;
 }
 
 .right-nav {
