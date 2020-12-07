@@ -1,20 +1,24 @@
-import React, { useState, useCallback } from 'react';
+import React, { Fragment, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { logout } from '../../config/session';
+import * as icons from '../../components/icons';
 
 export default function Nav() {
   const hist = useHistory();
   const dispatch = useDispatch();
   const IsLogged = useSelector(state => state.IsLogged);
 
-  const navLink = (link, description) => {
+  const navLink = (link, description, icon) => {
     if (IsLogged) {
       return (
-        <li className="nav-item">
-          <Link className="nav-link" to={link}>{description}</Link>
-        </li>
+        <Fragment>
+          <Link
+            className="sidenav-link"
+            to={link}
+          >{icon}&nbsp;&nbsp;{description}</Link>
+        </Fragment>
       )
     } else return;
   };
@@ -22,26 +26,21 @@ export default function Nav() {
   const authBtn = () => {
     if (IsLogged) {
       return (
-        <li className="nav-item">
-          <Link
-            className="nav-link"
-            to=""
-            onClick={() => {
-              hist.push("/login");
-              logout();
-              dispatch({ type: "LOG_OUT" })
-              //setIsLogged(false);
-            }}>Logout</Link>
-        </li>
+        <Link
+          className="right-nav-link"
+          to=""
+          onClick={() => {
+            hist.push("/login");
+            logout();
+            dispatch({ type: "LOG_OUT" });
+          }}>Logout</Link>
       )
     } else {
       return (
-        <li className="nav-item">
-          <Link
-            className="nav-link"
-            to="/login"
-          >Login</Link>
-        </li>
+        <Link
+          className="right-nav-link"
+          to="/login"
+        >Login</Link>
       )
     }
   }
@@ -49,146 +48,39 @@ export default function Nav() {
   const signupBtn = () => {
     if (!IsLogged) {
       return (
-        <li className="nav-item">
-          <Link
-            className="nav-link"
-            to="/sign-up"
-          >Sign Up</Link>
-        </li>
+        <Link
+          className="right-nav-link"
+          to="/sign-up"
+        >Sign Up</Link>
       )
     }
   }
 
-  const pullRight = () => {
+  const rightNav = () => {
     return (
-      <ul className="nav">
-        {navLink("/profile", "My Profile")}
-        {signupBtn()}
+      <div className="right-nav">
         {authBtn()}
-      </ul>
+        {signupBtn()}
+        <Link className="right-nav-link" to={"/profile"}>My Profile</Link>
+      </div>
     )
   }
 
-
   return (
-    <nav className="navbar-dark bg-dark">
-      <h3
-        className="nav-h3"
-        style={{
-          display: "inline",
-          padding: ".5rem 2rem",
-          color: "white",
-          cursor: "pointer"
-        }}
-        onClick={() => window.location.replace("/")}
-      >Vigor</h3>
-      <div className="navbar">
-        <ul className="nav">
-          {navLink("/", "Home")}
-          {navLink("/", "About")}
-          {/* {navLink("/my-recipes", "My Recipes")} */}
-          {navLink("/search-recipes", "Search Recipes")}
-          {navLink("/", "Task Scheduler")}
-          {navLink("/", "Contact Us")}
-        </ul>
-        {pullRight()}
+    <div>
+      <div className="command-bar">
+        <span className="brand">Vigor</span>
+        {rightNav()}
       </div>
-    </nav>
+      <div className="sidenav">
+        <div className="sidenav-close"><button>{"<"}</button></div>
+        {navLink("/", "Home", icons.home)}
+        {navLink("/", "About", icons.about)}
+        {/* {navLink("/my-recipes", "My Recipes")} */}
+        {navLink("/search-recipes", "Search Recipes", icons.search)}
+        {navLink("/", "Task Scheduler", icons.taskScheduler)}
+        {navLink("/", "Contact Us", icons.contactUs)}
+      </div>
+    </div>
   )
 };
-
-// export default class Nav extends Component {
-//   constructor(props) {
-//     super(props);
-
-//     this.state = {
-//       isNav: false,
-//     }
-//   };
-
-//   navLink = (link, description) => {
-//     if (checkLogin()) {
-//       return (
-//         <li className="nav-item">
-//           <Link className="nav-link" to={link}>{description}</Link>
-//         </li>
-//       )
-//     } else return;
-//   };
-
-//   authBtn = () => {
-//     if (checkLogin()) {
-//       return (
-//         <li className="nav-item">
-//           <Link
-//             className="nav-link"
-//             to=""
-//             onClick={() => {
-//               window.location.replace("/login");
-//               logout();
-//             }}>Logout</Link>
-//         </li>
-//       )
-//     } else {
-//       return (
-//         <li className="nav-item">
-//           <Link
-//             className="nav-link"
-//             to="/login"
-//           >Login</Link>
-//         </li>
-//       )
-//     }
-//   }
-
-//   signupBtn = () => {
-//     if (!checkLogin()) {
-//       return (
-//         <li className="nav-item">
-//           <Link
-//             className="nav-link"
-//             to="/sign-up"
-//           >Sign Up</Link>
-//         </li>
-//       )
-//     }
-//   }
-
-//   pullRight = () => {
-//     return (
-//       <ul className="nav">
-//         {this.navLink("/profile", "My Profile")}
-//         {this.signupBtn()}
-//         {this.authBtn()}
-//       </ul>
-//     )
-//   }
-
-//   render() {
-//     return (
-//       <nav className="navbar-dark bg-dark">
-//         <h3
-//           className="nav-h3"
-//           style={{
-//             display: "inline",
-//             padding: ".5rem 2rem",
-//             color: "white",
-//             cursor: "pointer"
-//           }}
-//           onClick={() => window.location.replace("/")}
-//         >Vigor</h3>
-//         <div className="navbar">
-//           <ul className="nav">
-//             {this.navLink("/", "Home")}
-//             {this.navLink("/", "About")}
-//             {/* {this.navLink("/my-recipes", "My Recipes")} */}
-//             {this.navLink("/search-recipes", "Search Recipes")}
-//             {this.navLink("/", "Task Scheduler")}
-//             {this.navLink("/", "Contact Us")}
-//           </ul>
-//           {this.pullRight()}
-//         </div>
-//       </nav>
-//     )
-//   };
-// }

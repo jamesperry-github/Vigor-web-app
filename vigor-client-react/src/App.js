@@ -15,6 +15,7 @@ export default function App() {
       <Router>
         <Fragment>
           <Nav />
+          {/* {Nav} */}
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/login" component={Login} />
